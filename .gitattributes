@@ -1,0 +1,16 @@
+# 確保 shell 文件使用 LF 結尾符
+*.sh text eol=lf
+
+# 保持 txt 文件的原始結尾符
+*.txt -text
+
+# 保持 Java 文件原樣
+*.java -text
+
+*.csv -text
+*.json -text
+*.classpath -text
+*.project -text
+*.lst -text
+*.aux -text
+*.synctex.gz -text
