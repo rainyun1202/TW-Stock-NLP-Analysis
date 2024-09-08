@@ -9,24 +9,29 @@ import os
 ws  = WS('./ckip_data')
 pos = POS('./ckip_data')
 
-data_path = os.path.join('..', '..', 'data')
+data_path = os.path.join('..', '..', 'data', 'anue_news_data')
 news_data = pd.read_csv(os.path.join(data_path, 'anue_clear(256721).csv'))
 news_list = list(news_data['content'])
 # 使用列表解析式移除 None、NaN 和空字串 (共三篇)
 clean_list = [x for x in news_list if not (pd.isnull(x) or x == '')]
-# 刪除無意義大量文本 (20 萬字基金名稱整理、當日重點新聞整理等等，共 947 篇)
+# 刪除無意義大量文本 (10 萬字基金名稱整理、當日重點新聞整理等等，共 947 篇)
 clean_list = [x for x in clean_list if not (len(x) > 4000)]
 
 #%% 自製股票名稱的專屬字典新增至預設 ANTUSD 中，以正確識別股票名稱並更精準的斷詞
 def get_stock_dict():
-    stock_id_df_1 = pd.read_csv('上市股票代碼.csv')
-    stock_id_df_2 = pd.read_csv('上櫃股票代碼.csv')
+    stock_id_df_1 = pd.read_csv(
+        os.path.join(data_path, '上市股票代碼.csv')
+    )
+    stock_id_df_2 = pd.read_csv(
+        os.path.join(data_path, '上櫃股票代碼.csv')
+    )
     stock_df = pd.concat([stock_id_df_1, stock_id_df_2])
     stock_df[['id', 'name']] = (
         stock_df['id_name'].str.split('　', n = 1, expand = True)
-        )
+    )
     stock_list = list(stock_df['name'])
     stock_weight_dict = dict((name, 1) for name in stock_list)
+    
     return stock_weight_dict
 
 stock_dict = get_stock_dict()
@@ -134,16 +139,24 @@ class NewsAnalyzer:
 
         return tidy_news, result[2]
 
+# 約 1 秒可以處理 10 篇新聞斷詞，執行該程式碼約需 8 小時 (i7-12700, 64GB 記憶體)
 processor = NewsAnalyzer(clean_list, dict_for_CKIP)
 ckip_list, error_news = processor.gen_result()
 
 #%% 將結果儲存為 txt
-with open('ckip_list.txt', 'w', encoding='utf-8') as file:
+with open(os.path.join(data_path, 'ckip_news_list.txt'),
+          'w', encoding='utf-8') as file:
     for item in ckip_list:
         file.write(f'{item}\n')
 
+with open(os.path.join(data_path, 'clean_news_list.txt'),
+          'w', encoding='utf-8') as file:
+    for item in clean_list:
+        file.write(f'{item}\n')
+
 # 讀入 txt 寫為 list
-# with open('ckip_list.txt', 'r', encoding='utf-8') as file:
+# with open(os.path.join(data_path, 'ckip_list.txt'),
+#           'r', encoding='utf-8') as file:
 #     lines = file.readlines()
 #     ckip_list = [line.rstrip('\n') for line in lines]
 

@@ -201,7 +201,7 @@ for modelname in models:
             y_pred_dict[f'{key}_{modelname}_{train_size}_djia'] = (
                 output_ml_result(modelname, train_size, df, key)[1])
 
-#%% 暫時使用 pickle 儲存資料 (資料暫時放在 scripts 中)
+#%% 使用 pickle 儲存與讀取資料
 # import pickle
 
 # with open(data_dir / 'binary_class_report_dict.pkl', 'wb') as f:
@@ -273,7 +273,7 @@ tw_results   = read_and_combine(directory, train_sizes, keys, models)
 djia_results = read_and_combine(directory, train_sizes, keys, models, True)
 
 # 將結果保存到 Excel
-with pd.ExcelWriter(data_dir / 'combined_results.xlsx') as writer:
+with pd.ExcelWriter(data_dir / 'all_models_ml_results.xlsx') as writer:
     for name, df in tw_results.items():
         df.to_excel(writer, sheet_name=f"{name} TW")
     for name, df in djia_results.items():

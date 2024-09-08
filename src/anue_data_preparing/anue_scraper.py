@@ -1,17 +1,17 @@
 import os
-import pandas as pd
-import requests
 import json
-from datetime import datetime, timedelta, timezone
+import requests
 import logging
+import pandas as pd
 import time
+from datetime import datetime, timedelta, timezone
+
 taiwan_tz = timezone(timedelta(hours=8)) # 台灣時區為 UTC+8
 
 # logging 配置
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
-
-# 文件處理器 - 將日誌輸出到 'anue_scraper.log'
+# 文件處理器 - 將日誌輸出到 .log 檔案
 file_handler = logging.FileHandler('anue_scraper.log')
 file_handler.setFormatter(
     logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
@@ -21,7 +21,6 @@ console_handler = logging.StreamHandler()
 console_handler.setFormatter(
     logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
 )
-
 # 添加處理器到 logger
 logger.addHandler(file_handler)
 logger.addHandler(console_handler)
@@ -169,7 +168,7 @@ def scrape_anue_news(start_year: int, end_year: int, interval: int):
 all_anue = scrape_anue_news(2013, 2023, 9)
 
 #%% 將資料整理儲存為 DataFrame
-# 2024/09/06 更新，最終 2013-01-01 ~ 2023-01-01，共 305577 篇
+# 2024/09/06 更新，最終 2013-01-01 ~ 2023-01-01，原始新聞資料共 305577 篇
 def extract_news_data(news_dict: dict, timezone: str) -> pd.DataFrame:
     data = [
         {
@@ -189,5 +188,5 @@ def extract_news_data(news_dict: dict, timezone: str) -> pd.DataFrame:
     
     return pd.DataFrame(data)
 
-save_path = os.path.join('..', '..', 'data', 'Anue_raw_data(305577).csv')
+save_path = os.path.join('..', '..', 'data', 'anue_news_data', 'anue_raw_data(305577).csv')
 # all_anue_df.to_csv(save_path, index=False)

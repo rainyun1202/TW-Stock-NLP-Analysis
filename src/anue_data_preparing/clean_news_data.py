@@ -3,8 +3,10 @@ import html
 import re
 import os
 
-data_path = os.path.join('..', '..', 'data', 'Anue_raw_data(305577).csv')
-news_data = pd.read_csv(data_path)
+data_path = os.path.join('..', '..', 'data', 'anue_news_data')
+news_data = pd.read_csv(
+    os.path.join(data_path, 'anue_raw_data(305577).csv')
+)
 
 # 處理爬蟲新聞資料含有 HTML 亂碼字符問題
 # 將 HTML 部分字符解碼，但解法不夠完全 (<p>、照片影片等等仍有殘留)
@@ -56,64 +58,6 @@ news_data['content'] = news_data['content'].apply(
     lambda x : "".join(x.split())
 )
 news_data = news_data[['title', 'content', 'publishAt']]
-save_path = os.path.join('..', '..', 'data', 'anue_clear(256721).csv')
+save_path = os.path.join('..', '..', 'data', 'anue_news_data', 'anue_clear(256721).csv')
 news_data.to_csv(save_path, index=False)
 
-#%% 2024/04/09 針對舊新聞文本更新，根據斷詞失敗問題回來刪除多餘、錯誤與無意義文本
-
-# news_data = news_data.reset_index(drop=True) # 重新排序 index
-# news_data = news_data.drop(index=111441)
-# news_data = news_data.drop(index=69974)
-# news_data = news_data.drop(index=23271)
-# news_data = news_data.drop(index=185722) # drop df 不會改變 index 順序
-# news_data = news_data.reset_index(drop=True) # 再次重新排序 index
-
-#%% CkipTagger (該步驟已更新，移至 split_news.py 處理，新增了股票代碼的自訂義字典)
-# 資料處理完畢，取出 content list 做斷詞處理
-# news_list = news_data['content'].to_list()
-
-# class NewsAnalyzer:
-#     def __init__(self, news_list):
-#         self.news_list = news_list
-    
-#     def SplitList(self):
-#         list_size = 100
-#         n_lists = len(self.news_list) // list_size + 1
-#         BigList = [self.news_list[i*list_size:(i+1)*list_size] for i in range(n_lists)]
-#         return BigList
-  
-#     def process(self):
-#         merged_s = []
-#         merged_p = []
-#         for SmallList in tqdm(self.SplitList()):
-#             word_s = ws(SmallList,
-#                         sentence_segmentation = True,
-#                         segment_delimiter_set = {'?', '？', '!', '！', '。',
-#                                                   ',', '，', ';', ':', '、'})
-#             word_p = pos(word_s)
-#             merged_s.extend(word_s)
-#             merged_p.extend(word_p)
-#         #word_n = ner(word_s, word_p)
-#         return merged_s, merged_p
-    
-#     def GenResult(self):
-#         TidyNews = []
-#         result = self.process()
-#         for news, news_pos in zip(result[0], result[1]):
-#             combine_word = ''
-#             for new, new_pos in zip(news, news_pos):
-#                 #一行清除所有空格(包括\n \t)
-#                 new = ''.join(new.split())
-#                 if new_pos != 'WHITESPACE':
-#                     combine_word += f'{new}({new_pos}) '
-#             combine_word = combine_word[:-1]
-#             TidyNews.append(combine_word)
-#         return TidyNews
-    
-
-# processor = NewsAnalyzer(news_list)
-# result = processor.GenResult()
-
-# 將完成的結果存入整理好的 DataFrame
-# news_data['ckiptagger_content'] = result
-# news_data.to_csv('(old) Anue_all_data_clear.csv', index=False)
