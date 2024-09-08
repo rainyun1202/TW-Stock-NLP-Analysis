@@ -1,0 +1,41 @@
+
+    \documentclass{article}
+    \usepackage{booktabs}
+    \usepackage{geometry}
+    \geometry{left=1cm, top=1cm, right=1cm, bottom=2cm}
+    \usepackage{makecell}
+    \usepackage{fontspec}
+    \usepackage{xeCJK}
+    \setCJKmainfont{NotoSerifCJKtc-Regular}
+
+    \begin{document}
+    \fontsize{12pt}{14pt}\selectfont
+    
+    \begin{tabular}{lc}
+\toprule
+ & \makecell{金融詞典\\正負面情緒\\（−1）} \\
+\midrule
+Intercept & -0.034 \\
+ & (0.045) \\
+報酬率（−1） & -0.062** \\
+ & (0.019) \\
+DJIA 報酬率（−1） & 0.330*** \\
+ & (0.017) \\
+消費者物價指數變動率（−1） & -0.036* \\
+ & (0.016) \\
+貨幣總計數變動率（−1） & 0.011* \\
+ & (0.005) \\
+\midrule
+Observations &   2451 \\
+AIC &    6314 \\
+BIC &    6343 \\
+R-squared &    0.142 \\
+Adj R-squared &    0.140 \\
+\bottomrule
+\end{tabular}
+
+    
+    \fontsize{11pt}{14pt}\selectfont
+    註：*: p<0.05; **: p<0.01; ***: p<0.001，括弧內的數字為標準誤。
+    \end{document}
+    

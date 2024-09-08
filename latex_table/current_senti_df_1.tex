@@ -1,0 +1,51 @@
+
+    \documentclass{article}
+    \usepackage{booktabs}
+    \usepackage{geometry}
+    \geometry{left=1cm, top=1cm, right=1cm, bottom=2cm}
+    \usepackage{makecell}
+    \usepackage{fontspec}
+    \usepackage{xeCJK}
+    \setCJKmainfont{NotoSerifCJKtc-Regular}
+
+    \begin{document}
+    \fontsize{12pt}{14pt}\selectfont
+    
+    \begin{tabular}{lcccc}
+\toprule
+ & 基本模型 & \makecell{譚松波\\情緒分數} & \makecell{Booking\\情緒分數} & \makecell{CopeOpi\\情緒分數} \\
+\midrule
+Intercept & -0.218* & -0.218* & 0.763* & -2.777*** \\
+ & (0.105) & (0.105) & (0.305) & (0.400) \\
+報酬率（−1） & 0.009 & 0.009 & 0.007 & -0.056** \\
+ & (0.020) & (0.020) & (0.020) & (0.020) \\
+消費者物價指數變動率（−1） & -0.031 & -0.031 & -- & -0.125*** \\
+ & (0.018) & (0.018) & -- & (0.019) \\
+貨幣總計數變動率（−1） & 0.008 & 0.008 & 0.004 & -- \\
+ & (0.009) & (0.009) & (0.009) & -- \\
+失業率（−1） & -- & -- & -- & 0.401*** \\
+ & -- & -- & -- & (0.093) \\
+券資比（−1） & -- & -- & -- & -0.012 \\
+ & -- & -- & -- & (0.007) \\
+市場週轉率（−1） & 0.542 & 0.542 & 0.655* & -- \\
+ & (0.327) & (0.327) & (0.328) & -- \\
+標準化成交量（−1） & -0.118* & -0.118* & -0.136* & -0.045* \\
+ & (0.054) & (0.054) & (0.054) & (0.020) \\
+Booking 情緒分數 & -- & -- & 1.181*** & -- \\
+ & -- & -- & (0.335) & -- \\
+CopeOpi 情緒分數 & -- & -- & -- & 0.219*** \\
+ & -- & -- & -- & (0.015) \\
+\midrule
+Observations &   2451 &   2451 &   2451 &   2451 \\
+AIC &    6679 &    6679 &    6670 &    6484 \\
+BIC &    6714 &    6714 &    6705 &    6525 \\
+R-squared &    0.005 &    0.005 &    0.009 &    0.082 \\
+Adj R-squared &    0.003 &    0.003 &    0.007 &    0.079 \\
+\bottomrule
+\end{tabular}
+
+    
+    \fontsize{11pt}{14pt}\selectfont
+    註：*: p<0.05; **: p<0.01; ***: p<0.001，括弧內的數字為標準誤。
+    \end{document}
+    
