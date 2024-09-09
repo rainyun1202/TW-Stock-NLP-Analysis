@@ -52,14 +52,14 @@ TW-Stock-NLP-Analysis/
 │   │   ├── CopeOpi_trad.class
 │   │   ├── CopeOpi_trad.java
 │   │   ├── ckip_to_cope_list.lst
-│   │   ├── dic_trad/
+│   │   ├── dic_trad
 │   │   │   ├── neg_unigram.txt
 │   │   │   ├── negation.txt
 │   │   │   ├── negative_new.txt
 │   │   │   ├── pos_unigram.txt
 │   │   │   └── positive_new.txt
 │   │   ├── file_trad.lst
-│   │   ├── opinion/
+│   │   ├── opinion
 │   │   │   ├── OpinionCore_Enhanced.jar
 │   │   │   ├── OpinionCore_Enhanced_simp.class
 │   │   │   ├── OpinionCore_Enhanced_simp.jar
@@ -100,27 +100,29 @@ TW-Stock-NLP-Analysis/
 │       ├── generate_latex_table.py
 │       ├── get_model_vars_df.py
 │       └── ml_train_test_split.py
+├── .gitattributes
+├── .gitignore
 ├── LICENSE
 ├── README.md
 ```
 
 ## 鉅亨網台股相關新聞爬蟲
 
-抓取 2013 年初至 2022 年底的新聞數據並進行資料清洗，腳本位置在 /src/anue_data_preparing 下。
+抓取 2013 年初至 2022 年底的新聞數據並進行資料清洗，腳本位置在 /src/anue_data_preparing 下。  
 由於抓取期間的原始新聞檔案約為 30 萬篇，進行清洗與斷詞後的檔案皆較龐大，
-關於本 Repo 後續所需的大型數據文件皆可於 [此處下載](https://1drv.ms/f/s!AjbizXOpCs2kgodJ8qiV1D9q-0HjRg?e=qqsU9L)
-每個版本都對應相應的數據集，並且數據按照 /data 資料夾結構進行組織。
+關於本 Repo 後續所需的大型數據文件皆可於 [此處下載](https://1drv.ms/f/s!AjbizXOpCs2kgodJ8qiV1D9q-0HjRg?e=qqsU9L)。  
+每個 .zip 檔案都對照相應的數據路徑，並且按照 data 資料夾結構進行組織。
 
 - `anue_news_data.zip`：包含 2013 年初至 2022 年底的原始新聞數據、乾淨新聞數據集與 CkipTagger 斷詞後所有符合 CopeOpi 腳本格式的新聞文本。
 - `copeopi_counting.zip`：CopeOpi 腳本讀取的各篇新聞 .txt 檔案與 .lst 檔案。
 - `out.zip`：執行 CopeOpi 腳本後的所有輸出結果。
 
-將資料儲存在 ./data 即可執行程式碼。
+將資料儲存在 data 對應的資料夾中即可執行程式碼。
 
 ## 透過 CkipTagger 進行新聞文本斷詞處理
 
 透過 /src/CkipTagger_split_news 內的腳本完成，可以參考 [CkipTagger GitHub](https://github.com/ckiplab/ckiptagger)，
-以及我的範例檔案。
+或我的範例檔案。
 
 ### 創建 Anaconda 虛擬環境執行斷詞程式碼：
 
@@ -136,13 +138,13 @@ pip install -U ckiptagger
 
 ### CopeOpi
 
-腳本位於 /src/CopeOpi_scripts 中。
+腳本位於 /src/CopeOpi_scripts 中。  
 參考文獻：
 - [CSentiPackage](references/CSentiPackage官方文檔.pdf)
 - [CopeOpi](references/2009_Ku_et_al_CopeOpi.pdf)
 
-請透過 Linux 環境執行該腳本，這裡以使用 WSL (Microsoft Windows Subsystem for Linux) Ubuntu 為範例：
-電腦環境從未安裝過 WSL 時： (請使用系統管理員等級的 Powershell 安裝)
+請透過 Linux 環境執行該腳本，這裡以使用 WSL (Microsoft Windows Subsystem for Linux) Ubuntu 為範例：  
+電腦環境從未安裝過 WSL 時： (請使用系統管理員等級的 Powershell 安裝)  
 
 ```bash
 # 安裝 WSL 虛擬環境
@@ -177,9 +179,9 @@ sudo apt update && sudo apt upgrade
 1. sudo apt update：用於更新套件源。它會檢查可用的軟件包清單，以確保系統知道所有最新的套件。
 2. sudo apt upgrade：用於升級已安裝的套件。安裝可用的最新版本套件，並且提示是否要執行這些更新。
 
-於 WSL Ubuntu 中設定路徑：
+於 WSL Ubuntu 中設定路徑：  
 (請於 [此處下載](https://1drv.ms/f/s!AjbizXOpCs2kgodJ8qiV1D9q-0HjRg?e=qqsU9L) 檔案後，
-將 copeopi_counting.7z 解壓縮後放入 CopeOpi_scripts，並將資料夾移至 Ubuntu 路徑下執行)
+將 copeopi_counting.7z 解壓縮後放入 CopeOpi_scripts，並將資料夾移至 Ubuntu 路徑下執行)。  
 於 WSL Ubuntu 中提供 CopeOpi 腳本與新聞資料 (.txt 檔案) 路徑：
 
 ```bash
@@ -190,20 +192,21 @@ cd /home/your_user_name/CopeOpi_scripts
 ```bash
 bash ./run_ckip_news.sh
 # 若權限不足則執行 sudo bash ./run_ckip_news.sh
+
 # 中研院範例檔腳本，原程式碼泛用性不佳，可以先執行範例確認是否可以正常運作後再處理大量的新聞文本數據
 bash ./run_trad.sh
 ```
 
-各個文檔之執行結果將會輸出到 out 資料夾中 (在此壓縮為 out.7z)，
+各個文檔之執行結果將會輸出到 out 資料夾中 (在此壓縮為 out.7z)，  
 所有文檔的情緒分數則會輸出到 out.txt 檔案中 (在此取名為 copeopi_senti_score.txt 置於 data 中)。
 
 ### HanLP
 
-參考：[pyhanlp](https://github.com/hankcs/pyhanlp)
-程式碼位於 /src/HanLP 中。
-/data/HanLP_dataset 下提供使用 Booking 飯店評論資料集自製的訓練文本與 HanLP 提供的語料庫。
-參考：[HanLP GitHub](https://github.com/hankcs/HanLP)，
-建議創建一個新的 conda 環境來單獨執行 HanLP 分數計算之程式碼。
+參考：[pyhanlp](https://github.com/hankcs/pyhanlp)，  
+相關程式碼位於 /src/HanLP 中。  
+/data/HanLP_dataset 下提供使用 Booking 飯店評論資料集自製的訓練文本與 HanLP 提供的語料庫。  
+參考：[HanLP GitHub](https://github.com/hankcs/HanLP)，  
+建議創建一個新的 conda 環境來單獨執行 HanLP 分數計算之程式碼。  
 Booking 飯店評論資料集 (booking_sentiment_dataset.7z) 解壓縮後須自行放置於 pyhanlp 路徑下，
 若使用 conda 環境建置，路徑應位於：
 
@@ -213,10 +216,10 @@ C/Users/User/AppData/Local/anaconda3/envs/hanlp_env/Lib/site-packages/pyhanlp/st
 
 ### 字典匹配
 
-參考：[陳冠臻等人 (2020)](references/2020_陳冠臻_et_al_人文及社會科學集刊.pdf) 於人文及社會科學集刊發表之期刊，
+參考 [陳冠臻等人 (2020)](references/2020_陳冠臻_et_al_人文及社會科學集刊.pdf) 於人文及社會科學集刊發表之期刊，
 根據該期刊自製之財經領域詞典與增廣意見詞詞典 (ANTUSD) 對斷詞後的新聞文本進行匹配以計算情緒分數，
 程式碼位於 /src/scripts/(0) journal_senti_score.py
 
 ## 機器學習與回測結果
 
-所有程式碼皆可於 /src/scripts 中找到
+相關程式碼皆可於 /src/scripts 中找到
