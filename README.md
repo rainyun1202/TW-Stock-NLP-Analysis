@@ -87,6 +87,7 @@ TW-Stock-NLP-Analysis/
 │   │   ├── run_ols_and_format.py
 │   │   └── stepwise_forward_selection.py
 │   ├── scripts
+│   │   ├── __init__.py
 │   │   ├── (0) journal_senti_score.py
 │   │   ├── (1) daily_data_preparing.py
 │   │   ├── (2) daily_data_preparing_2.py
@@ -197,7 +198,7 @@ bash ./run_ckip_news.sh
 bash ./run_trad.sh
 ```
 
-各個文檔之執行結果將會輸出到 out 資料夾中 (在此壓縮為 out.7z)，  
+各個文檔之執行結果將會輸出到 out 資料夾中 (在此壓縮為 out.zip)，  
 所有文檔的情緒分數則會輸出到 out.txt 檔案中 (在此取名為 copeopi_senti_score.txt 置於 data 中)。
 
 ### HanLP
@@ -207,7 +208,7 @@ bash ./run_trad.sh
 /data/HanLP_dataset 下提供使用 Booking 飯店評論資料集自製的訓練文本與 HanLP 提供的語料庫。  
 參考：[HanLP GitHub](https://github.com/hankcs/HanLP)，  
 建議創建一個新的 conda 環境來單獨執行 HanLP 分數計算之程式碼。  
-Booking 飯店評論資料集 (booking_sentiment_dataset.7z) 解壓縮後須自行放置於 pyhanlp 路徑下，
+Booking 飯店評論資料集 (booking_sentiment_dataset.zip) 解壓縮後須自行放置於 pyhanlp 路徑下，
 若使用 conda 環境建置，路徑應位於：
 
 ```bash
@@ -218,8 +219,16 @@ C/Users/User/AppData/Local/anaconda3/envs/hanlp_env/Lib/site-packages/pyhanlp/st
 
 參考 [陳冠臻等人 (2020)](references/2020_陳冠臻_et_al_人文及社會科學集刊.pdf) 於人文及社會科學集刊發表之期刊，
 根據該期刊自製之財經領域詞典與增廣意見詞詞典 (ANTUSD) 對斷詞後的新聞文本進行匹配以計算情緒分數，
-程式碼位於 /src/scripts/(0) journal_senti_score.py
+程式碼位於 /src/scripts/`(0) journal_senti_score.py`
 
 ## 機器學習與回測結果
 
-相關程式碼皆可於 /src/scripts 中找到
+相關程式碼皆可於 /src/scripts 中找到，  
+該專案證實了【當期】新聞情緒之有效性，然而【前一期 (日)】之新聞情緒則不具解釋與預測能力 (無法透過前進選擇法被 AIC 所挑出)，  
+且台灣加權股票指數高度受美國股市所牽動，當機器學習模型放入前一期 (日) 美股指數時，機器學習模型預測正確率皆可達 6 成以上，  
+但因股票市場存在跳空高開或低開之缺口，即使利用美股指數正確預測了隔日台股的漲跌，台股隨即就在開盤時出現缺口而提前反應完畢，
+因此能透過交易獲取的超額報酬僅有開盤價至收盤價的差額 (這裡假定沒有在盤中相對高低點進行買賣交易)。  
+在尚未考慮交易成本時 (手續費與證交稅)，通過十次模型的平均預測結果 (回測，分為三個不同測試集，詳細可以參考 scripts 內的程式碼) 可以穩定營利，
+一旦納入交易成本時則虧損嚴重，顯示股票市場主動交易與策略交易之難處。  
+如同【持續買進】一書所述，長期看好一個標的並不帶情緒不停地固定買進，或許才是散戶投資可行的長久獲利之道。  
+本專案作為十分簡易股票市場回測與情緒分析之啟發，後續我將會繼續深入製作逐日更新的即時股票資訊與情緒分數，創建更多投資策略。  
